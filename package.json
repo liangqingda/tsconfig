@@ -1,0 +1,30 @@
+{
+  "name": "@liangqingda/tsconfig",
+  "version": "1.0.0",
+  "description": "Reusable TypeScript config presets for React and Node.js projects.",
+  "repository": "git@github.com:liangqingda/tsconfig.git",
+  "author": "Qingda Liang",
+  "license": "UNLICENSED",
+  "private": false,
+  "tsconfig": "./tsconfig.json",
+  "exports": {
+    ".": "./tsconfig.json",
+    "./base.json": "./base.json",
+    "./react.json": "./react.json",
+    "./node.json": "./node.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "base.json",
+    "react.json",
+    "node.json",
+    "tsconfig.json"
+  ],
+  "peerDependencies": {
+    "typescript": "^6.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
