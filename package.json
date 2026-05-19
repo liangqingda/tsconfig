@@ -1,6 +1,6 @@
 {
   "name": "@liangqingda/tsconfig",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reusable TypeScript config presets for React and Node.js projects.",
   "repository": "git@github.com:liangqingda/tsconfig.git",
   "author": "Qingda Liang",
