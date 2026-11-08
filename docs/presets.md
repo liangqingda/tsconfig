@@ -1,10 +1,11 @@
 # 预设说明
 
-这个包目前提供 3 份可复用预设：
+这个包目前提供 3 份默认预设和 1 份可选加严预设：
 
 - `@liangqingda/tsconfig`
 - `@liangqingda/tsconfig/react.json`
 - `@liangqingda/tsconfig/node.json`
+- `@liangqingda/tsconfig/strictest.json`（可选，会打破存量代码）
 
 其中：
 
@@ -55,6 +56,8 @@
   防止 `switch` 里的 case 意外贯穿到下一个分支。常见于漏写 `break`、`return` 时的低级 bug。
 - `noUncheckedSideEffectImports: true`
   对只为了副作用执行的导入也做更严格的检查，比如 `import "./setup"` 这类写法。它能减少导入路径写错却不容易发现的问题。
+- `noImplicitOverride: true`
+  重写父类的成员时必须显式写 `override`。避免父类方法改名后，子类里同名方法悄悄变成"新增成员"而不是"重写"，这类错误在运行时很难发现。
 
 一句话理解：`base.json` 关心的是“代码写得够不够严谨”，不关心“代码最终跑在浏览器还是 Node.js”。
 
@@ -118,5 +121,37 @@
     "module": "CommonJS",
     "moduleResolution": "Node"
   }
+}
+```
+
+## `@liangqingda/tsconfig/strictest.json`
+
+在 `base.json` 之上再加两条「会打破存量代码」的选项。默认预设不启用它们，因为存量项目需要先改代码才能全绿。
+
+- `noUncheckedIndexedAccess: true`
+  下标访问和 `Record` 取值的结果都带上 `undefined`，强制处理越界与缺键。数组、`Map` 之外的对象索引、组件 props 里常见的 `styles['x']` 都会因此需要判空。
+- `exactOptionalPropertyTypes: true`
+  区分「属性不存在」和「属性值是 `undefined`」。可选属性若要接受显式 `undefined`，必须写成 `?: X | undefined`，不能只写 `?: X`。
+
+适用场景：
+
+- 新建项目，从第一行代码起就按最严标准写
+- 存量项目已经确认能一次性改完（老项目直接开会有成批报错，例如 `styles['footer']` 这类 CSS Modules 索引访问）
+
+用法：
+
+```json
+{
+  "extends": "@liangqingda/tsconfig/strictest.json",
+  "include": ["src"]
+}
+```
+
+前端项目想同时要 bundler 相关的编译选项，可以叠两层 `extends`：
+
+```json
+{
+  "extends": ["@liangqingda/tsconfig/react.json", "@liangqingda/tsconfig/strictest.json"],
+  "include": ["src"]
 }
 ```

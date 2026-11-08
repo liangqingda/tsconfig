@@ -44,6 +44,18 @@ pnpm add -D @types/node
 }
 ```
 
+## 更严格的预设（可选）
+
+```json
+{
+  "extends": "@liangqingda/tsconfig/strictest.json",
+  "include": ["src"]
+}
+```
+
+它会在 `base.json` 之上再开 `noUncheckedIndexedAccess` 与 `exactOptionalPropertyTypes`。
+这两条会立刻在存量代码里报出成批错误，所以默认预设不启用；新项目建议直接用，老项目先修完再切。
+
 ## 推荐做法
 
 下面这些配置建议保留在业务项目本地，而不是放到共享包里：
